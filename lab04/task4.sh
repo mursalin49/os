@@ -1,12 +1,47 @@
 #!/bin/bash
 
-read -p "Enter a year: " input_year
+read -p "Enter a year: " year
+v1=0
+v2=0
+year1=$year
+year2=$year
 
-while true; do
-    ((input_year--))
-
-    if [ $((input_year % 4)) -eq 0 ] && [ $((input_year % 100)) -ne 0 ] || [ $((input_year % 400)) -eq 0 ]; then
-        echo "Nearest leap year before or equal to $input_year: $input_year"
+i=1
+while ((i <= 4))
+do
+    if (( (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ))
+    then
+        v1=$i
+        year1=$year
         break
+    else
+        ((year++))
+        ((i++))
     fi
 done
+
+year=$year2
+j=1
+while ((j <= 4))
+do
+    if (( (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ))
+    then
+        v2=$j
+        year2=$year
+        break
+    else
+        ((year--))
+        ((j++))
+    fi
+done
+
+if ((v1 > v2))
+then
+    echo "Nearest leap year: $year2"
+elif ((v1 < v2))
+then
+    echo "Nearest leap year: $year1"
+else
+    echo "Nearest leap year: $year1"
+fi
+
